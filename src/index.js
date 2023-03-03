@@ -67,9 +67,9 @@ export default (WrappedComponent) => {
 
     const _onProgress = evt => {
       saveStateForPlayer('currentTime', secondsToMs(evt.currentTime));
-      if (getPlayerStatus() === 'paused') {
-        return;
-      }
+      // if (getPlayerStatus() === 'paused') {
+      //   return;
+      // }
 
       if (getPlayerStatus() === 'play') {
         setPlayerStatus('playing');
@@ -125,13 +125,12 @@ export default (WrappedComponent) => {
       }
 
       if (isFirstPlayAttempt || isUnPausing) {
-        emitPlay();
+        // emitPlay();
         onPlaybackRateChange(evt);
         return;
       }
 
       if (newRate === 0) {
-        emit('pause');
         setPlayerStatus('paused');
         onPlaybackRateChange(evt);
       }
@@ -164,7 +163,7 @@ export default (WrappedComponent) => {
       options.data = assign(
         {
           player_software_name: 'React native video',
-          player_is_paused: getStateForPlayer('isPaused'),
+          // player_is_paused: getStateForPlayer('isPaused'),
           // player_software_version: player.constructor.version, // TODO
           player_mux_plugin_name: 'react-native-video-mux',
           player_mux_plugin_version: lib.version
@@ -176,7 +175,7 @@ export default (WrappedComponent) => {
         return {
           // Required properties - these must be provided every time this is called
           // You _should_ only provide these values if they are defined (i.e. not 'undefined')
-          player_is_paused: getStateForPlayer('isPaused'),
+          // player_is_paused: getStateForPlayer('isPaused'),
           // player_width: getStateForPlayer('playerWidth'),
           // player_height: getStateForPlayer('playerHeight'),
           video_source_height: getStateForPlayer('sourceWidth'),
