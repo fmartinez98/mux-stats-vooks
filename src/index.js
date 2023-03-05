@@ -18,7 +18,7 @@ const generateShortId = function () {
 export default (WrappedComponent) => {
   return React.forwardRef(({
     onProgress = noop,
-    paused = false,
+    onPaused = noop,
     onEnd = noop,
     onSeek = noop,
     onLoad = noop,
@@ -41,7 +41,7 @@ export default (WrappedComponent) => {
       progressUpdateInterval = 250;
     }
 
-    const didStartPaused = paused;
+    const didStartPaused = otherProps.paused;
 
     const stateRef = React.useRef({ playerID: generateShortId() });
     const saveStateForPlayer = (key, value) => {
@@ -68,13 +68,13 @@ export default (WrappedComponent) => {
 
     const _onProgress = evt => {
       saveStateForPlayer('currentTime', secondsToMs(evt.currentTime));
-      // if (getPlayerStatus() === 'paused') {
-      //   return;
-      // }
+      if (getPlayerStatus() === 'paused') {
+        return;
+      }
 
       if (getPlayerStatus() === 'play') {
         setPlayerStatus('playing');
-        // emit('playing');
+        emit('playing');
       }
       emit('timeupdate', { player_playhead_time: secondsToMs(evt.currentTime) });
       onProgress(evt);
@@ -84,6 +84,10 @@ export default (WrappedComponent) => {
       emit('ended');
       onEnd(evt);
     };
+
+    const _onPaused = env => {
+      env ? setPlayerStatus('paused') : setPlayerStatus('playing')
+    }
 
     const _onSeek = evt => {
       emit('seeked');
@@ -126,7 +130,7 @@ export default (WrappedComponent) => {
       }
 
       if (isFirstPlayAttempt || isUnPausing) {
-        // emitPlay();
+        emitPlay();
         onPlaybackRateChange(evt);
         return;
       }
@@ -214,9 +218,9 @@ export default (WrappedComponent) => {
       }
 
       mux.init(stateRef.current.playerID, options);
-      // if (!didStartPaused) {
-      //   emitPlay();
-      // }
+      if (!didStartPaused) {
+        emitPlay();
+      }
 
       return () => {
         emit('destroy');
@@ -251,6 +255,7 @@ export default (WrappedComponent) => {
         onEnd={_onEnd}
         onSeek={_onSeek}
         onLoad={_onLoad}
+        onPaused={_onPaused}
         onPlaybackRateChange={_onPlaybackRateChange}
         progressUpdateInterval={progressUpdateInterval}
         onFullscreenPlayerDidPresent={_onFullscreenPlayerDidPresent}
