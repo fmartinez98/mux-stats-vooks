@@ -184,7 +184,7 @@ export default (WrappedComponent) => {
           // Preferred properties - these should be provided in this callback if possible
           // If any are missing, that is okay, but this will be a lack of data for the customer at a later time
           player_is_fullscreen: getStateForPlayer('isFullscreen'),
-          player_autoplay_on: !otherProps.paused,
+          // player_autoplay_on: !otherProps.paused,
           // player_preload_on: isPreload(),
           video_source_url: source && source.uri,
           // video_source_mime_type: getMimeType(),
@@ -213,9 +213,9 @@ export default (WrappedComponent) => {
       }
 
       mux.init(stateRef.current.playerID, options);
-      if (!didStartPaused) {
-        emitPlay();
-      }
+      // if (!didStartPaused) {
+      //   emitPlay();
+      // }
 
       return () => {
         emit('destroy');
