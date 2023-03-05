@@ -43,9 +43,9 @@ export default (WrappedComponent) => {
 
     console.log('😁: ' + onPaused);
 
-    console.log('🤫: ' + otherProps);
+    console.log('🤫: ' + otherProps.paused);
 
-    console.log('🥺: ' + getStateForPlayer('isPaused'));
+    // console.log('🥺: ' + getStateForPlayer('isPaused'));
 
 
     const didStartPaused = otherProps.paused;
