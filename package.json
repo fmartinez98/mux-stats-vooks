@@ -1,6 +1,6 @@
 {
   "name": "mux-stats-vooks",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "Mux, Inc. and Federico Martinez",
   "description": "Mux analytics plugin for react-native-video without paused report",
   "homepage": "https://github.com/fmartinez98/mux-stats-vooks",
