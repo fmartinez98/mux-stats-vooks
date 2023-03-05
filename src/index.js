@@ -73,7 +73,7 @@ export default (WrappedComponent) => {
 
       if (getPlayerStatus() === 'play') {
         setPlayerStatus('playing');
-        emit('playing');
+        // emit('playing');
       }
       emit('timeupdate', { player_playhead_time: secondsToMs(evt.currentTime) });
       onProgress(evt);
