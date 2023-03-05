@@ -43,12 +43,7 @@ export default (WrappedComponent) => {
 
     console.log('😁: ' + onPaused);
 
-    console.log('🤫: ' + otherProps.paused);
-
-    // console.log('🥺: ' + getStateForPlayer('isPaused'));
-
-
-    const didStartPaused = otherProps.paused;
+    const didStartPaused = onPaused;
 
     const stateRef = React.useRef({ playerID: generateShortId() });
     const saveStateForPlayer = (key, value) => {
@@ -175,7 +170,7 @@ export default (WrappedComponent) => {
       options.data = assign(
         {
           player_software_name: 'React native video',
-          // player_is_paused: getStateForPlayer('isPaused'),
+          player_is_paused: getStateForPlayer('isPaused'),
           // player_software_version: player.constructor.version, // TODO
           player_mux_plugin_name: 'react-native-video-mux',
           player_mux_plugin_version: lib.version
@@ -187,7 +182,7 @@ export default (WrappedComponent) => {
         return {
           // Required properties - these must be provided every time this is called
           // You _should_ only provide these values if they are defined (i.e. not 'undefined')
-          // player_is_paused: getStateForPlayer('isPaused'),
+          player_is_paused: getStateForPlayer('isPaused'),
           // player_width: getStateForPlayer('playerWidth'),
           // player_height: getStateForPlayer('playerHeight'),
           video_source_height: getStateForPlayer('sourceWidth'),
