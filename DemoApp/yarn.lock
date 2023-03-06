@@ -5082,7 +5082,7 @@ mux-embed@^4.2.0:
   resolved "https://registry.yarnpkg.com/mux-embed/-/mux-embed-4.3.0.tgz#2ea49bb10ca7f7b8b221864d3551ba473e8b91b8"
   integrity sha512-NcOaTNZq8qulxScHicm4PAzQzg09wx1mWDNRYNqSrovAtiCwTUDsgbkCOJrm8yu559A5tvfTc8zP7lIAO7lxZA==
 
-"mux-react-native-video-sdk@file:..":
+"mux-stats-vooks@file:..":
   version "0.2.0"
   dependencies:
     mux-embed "^4.2.0"

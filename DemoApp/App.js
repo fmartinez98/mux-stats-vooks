@@ -19,7 +19,7 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Video from 'react-native-video';
-import muxReactNativeVideo from 'mux-react-native-video-sdk';
+import muxReactNativeVideo from 'mux-stats-vooks';
 import app from './package.json';
 
 const MuxVideo = muxReactNativeVideo(Video);

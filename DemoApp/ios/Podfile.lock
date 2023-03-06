@@ -11,7 +11,7 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.66.4)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - mux-react-native-video-sdk (0.2.0):
+  - mux-stats-vooks (0.2.0):
     - React-Core
   - RCT-Folly (2021.06.28.00-v2):
     - boost
@@ -289,7 +289,7 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - mux-react-native-video-sdk (from `../node_modules/mux-react-native-video-sdk`)
+  - mux-stats-vooks (from `../node_modules/mux-stats-vooks`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -334,8 +334,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
-  mux-react-native-video-sdk:
-    :path: "../node_modules/mux-react-native-video-sdk"
+  mux-stats-vooks:
+    :path: "../node_modules/mux-stats-vooks"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -396,7 +396,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: fe08c1cd7e2e205718d77ad14b34957cce949b58
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 5337263514dd6f09803962437687240c5dc39aa4
-  mux-react-native-video-sdk: d381bbf5b9523546fd6c4915c1b7832fd0a1d5e0
+  mux-stats-vooks: d381bbf5b9523546fd6c4915c1b7832fd0a1d5e0
   RCT-Folly: a21c126816d8025b547704b777a2ba552f3d9fa9
   RCTRequired: 4bf86c70714490bca4bf2696148638284622644b
   RCTTypeSafety: c475a7059eb77935fa53d2c17db299893f057d5d

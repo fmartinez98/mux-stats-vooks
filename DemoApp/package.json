@@ -11,7 +11,7 @@
     "react-native": "react-native"
   },
   "dependencies": {
-    "mux-react-native-video-sdk": "file:../",
+    "mux-stats-vooks": "file:../",
     "react": "16.9.0",
     "react-native": "^0.66.4",
     "react-native-video": "^5.0.2"
