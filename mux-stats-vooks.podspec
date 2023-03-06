@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.homepage     = package['homepage']
   s.platforms    = { :ios => "9.0", :osx => "10.13" }
 
-  s.source       = { :git => "https://github.com/muxinc/mux-stats-sdk-react-native-video.git", :tag => "v#{s.version}" }
+  s.source       = { :git => "https://github.com/fmartinez98/mux-stats-vooks", :tag => "v#{s.version}" }
   s.source_files  = "apple/**/*.{h,m}"
 
   s.dependency 'React-Core'
