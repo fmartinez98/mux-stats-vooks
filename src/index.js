@@ -18,7 +18,7 @@ const generateShortId = function () {
 export default (WrappedComponent) => {
   return React.forwardRef(({
     onProgress = noop,
-    onPaused = noop, //new onPaused prop
+    isPaused = false, //new isPaused prop
     onEnd = noop,
     onSeek = noop,
     onLoad = noop,
@@ -41,7 +41,7 @@ export default (WrappedComponent) => {
       progressUpdateInterval = 250;
     }
 
-    const didStartPaused = onPaused; //new onPaused prop
+    const didStartPaused = isPaused; //new isPaused prop
 
     const stateRef = React.useRef({ playerID: generateShortId() });
     const saveStateForPlayer = (key, value) => {
@@ -66,9 +66,15 @@ export default (WrappedComponent) => {
 
     useImperativeHandle(ref, () => Object.assign(videoRef.current, { mux: { emit } }));
 
-    const _onPaused = env => {
-      console.log('😁: ' + env);
-      env ? setPlayerStatus('paused') : setPlayerStatus('playing')
+    const _isPaused = env => {
+      if (env) {
+        emit('pause');
+      } else {
+        emit('playing')
+      }
+      isPaused = env;
+      // console.log('😁: ' + env);
+      // env ? setPlayerStatus('paused') : setPlayerStatus('playing')
     }
 
     const _onProgress = evt => {
@@ -137,7 +143,7 @@ export default (WrappedComponent) => {
       }
 
       if (newRate === 0) {
-        // emit('pause'); //This should emit to the backend to pause
+        emit('pause'); //This should emit to the backend to pause
         setPlayerStatus('paused');
         onPlaybackRateChange(evt);
       }
@@ -182,7 +188,7 @@ export default (WrappedComponent) => {
         return {
           // Required properties - these must be provided every time this is called
           // You _should_ only provide these values if they are defined (i.e. not 'undefined')
-          player_is_paused: getStateForPlayer('isPaused'),
+          // player_is_paused: getStateForPlayer('isPaused'),
           // player_width: getStateForPlayer('playerWidth'),
           // player_height: getStateForPlayer('playerHeight'),
           video_source_height: getStateForPlayer('sourceWidth'),
@@ -191,7 +197,7 @@ export default (WrappedComponent) => {
           // Preferred properties - these should be provided in this callback if possible
           // If any are missing, that is okay, but this will be a lack of data for the customer at a later time
           player_is_fullscreen: getStateForPlayer('isFullscreen'),
-          player_autoplay_on: !onPaused,
+          player_autoplay_on: !isPaused,
           // player_preload_on: isPreload(),
           video_source_url: source && source.uri,
           // video_source_mime_type: getMimeType(),
@@ -257,7 +263,7 @@ export default (WrappedComponent) => {
         onEnd={_onEnd}
         onSeek={_onSeek}
         onLoad={_onLoad}
-        onPaused={_onPaused} //new onPaused prop
+        isPaused={_isPaused} //new isPaused prop
         onPlaybackRateChange={_onPlaybackRateChange}
         progressUpdateInterval={progressUpdateInterval}
         onFullscreenPlayerDidPresent={_onFullscreenPlayerDidPresent}
