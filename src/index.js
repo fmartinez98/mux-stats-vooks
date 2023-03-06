@@ -18,7 +18,7 @@ const generateShortId = function () {
 export default (WrappedComponent) => {
   return React.forwardRef(({
     onProgress = noop,
-    onPaused = noop,
+    onPaused = noop, //new onPaused prop
     onEnd = noop,
     onSeek = noop,
     onLoad = noop,
@@ -41,9 +41,7 @@ export default (WrappedComponent) => {
       progressUpdateInterval = 250;
     }
 
-    console.log('😁: ' + onPaused);
-
-    const didStartPaused = onPaused;
+    const didStartPaused = onPaused; //new onPaused prop
 
     const stateRef = React.useRef({ playerID: generateShortId() });
     const saveStateForPlayer = (key, value) => {
@@ -68,6 +66,11 @@ export default (WrappedComponent) => {
 
     useImperativeHandle(ref, () => Object.assign(videoRef.current, { mux: { emit } }));
 
+    const _onPaused = env => {
+      console.log('😁: ' + env);
+      env ? setPlayerStatus('paused') : setPlayerStatus('playing')
+    }
+
     const _onProgress = evt => {
       saveStateForPlayer('currentTime', secondsToMs(evt.currentTime));
       if (getPlayerStatus() === 'paused') {
@@ -86,10 +89,6 @@ export default (WrappedComponent) => {
       emit('ended');
       onEnd(evt);
     };
-
-    const _onPaused = env => {
-      env ? setPlayerStatus('paused') : setPlayerStatus('playing')
-    }
 
     const _onSeek = evt => {
       emit('seeked');
@@ -138,6 +137,7 @@ export default (WrappedComponent) => {
       }
 
       if (newRate === 0) {
+        // emit('pause'); //This should emit to the backend to pause
         setPlayerStatus('paused');
         onPlaybackRateChange(evt);
       }
@@ -191,7 +191,7 @@ export default (WrappedComponent) => {
           // Preferred properties - these should be provided in this callback if possible
           // If any are missing, that is okay, but this will be a lack of data for the customer at a later time
           player_is_fullscreen: getStateForPlayer('isFullscreen'),
-          player_autoplay_on: !getStateForPlayer('isPaused'),
+          player_autoplay_on: !onPaused,
           // player_preload_on: isPreload(),
           video_source_url: source && source.uri,
           // video_source_mime_type: getMimeType(),
@@ -257,7 +257,7 @@ export default (WrappedComponent) => {
         onEnd={_onEnd}
         onSeek={_onSeek}
         onLoad={_onLoad}
-        onPaused={_onPaused}
+        onPaused={_onPaused} //new onPaused prop
         onPlaybackRateChange={_onPlaybackRateChange}
         progressUpdateInterval={progressUpdateInterval}
         onFullscreenPlayerDidPresent={_onFullscreenPlayerDidPresent}
