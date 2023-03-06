@@ -1,5 +1,5 @@
 import mux from 'mux-embed';
-import React, { useEffect, useImperativeHandle, useRef } from 'react';
+import React, { useEffect, useMemo, useImperativeHandle, useRef } from 'react';
 import { Platform } from 'react-native';
 import lib from '../package.json';
 const secondsToMs = mux.utils.secondsToMs;
@@ -18,7 +18,6 @@ const generateShortId = function () {
 export default (WrappedComponent) => {
   return React.forwardRef(({
     onProgress = noop,
-    isPaused = false, //new isPaused prop
     onEnd = noop,
     onSeek = noop,
     onLoad = noop,
@@ -41,7 +40,7 @@ export default (WrappedComponent) => {
       progressUpdateInterval = 250;
     }
 
-    const didStartPaused = isPaused; //new isPaused prop
+    const didStartPaused = otherProps.paused;
 
     const stateRef = React.useRef({ playerID: generateShortId() });
     const saveStateForPlayer = (key, value) => {
@@ -66,16 +65,17 @@ export default (WrappedComponent) => {
 
     useImperativeHandle(ref, () => Object.assign(videoRef.current, { mux: { emit } }));
 
-    const _isPaused = env => {
-      if (env) {
-        emit('pause');
-      } else {
-        emit('playing')
+    const onChangePause = useMemo(() => {
+      if (ref?.current){
+        if (otherProps?.paused) {
+          emit('pause');
+          setPlayerStatus('paused');
+        } else {
+          emit('playing')
+          setPlayerStatus('playing');
+        }
       }
-      isPaused = env;
-      // console.log('😁: ' + env);
-      // env ? setPlayerStatus('paused') : setPlayerStatus('playing')
-    }
+    }, [otherProps?.paused]);
 
     const _onProgress = evt => {
       saveStateForPlayer('currentTime', secondsToMs(evt.currentTime));
@@ -176,7 +176,7 @@ export default (WrappedComponent) => {
       options.data = assign(
         {
           player_software_name: 'React native video',
-          player_is_paused: getStateForPlayer('isPaused'),
+          player_is_paused: otherProps.paused,
           // player_software_version: player.constructor.version, // TODO
           player_mux_plugin_name: 'react-native-video-mux',
           player_mux_plugin_version: lib.version
@@ -188,7 +188,6 @@ export default (WrappedComponent) => {
         return {
           // Required properties - these must be provided every time this is called
           // You _should_ only provide these values if they are defined (i.e. not 'undefined')
-          // player_is_paused: getStateForPlayer('isPaused'),
           // player_width: getStateForPlayer('playerWidth'),
           // player_height: getStateForPlayer('playerHeight'),
           video_source_height: getStateForPlayer('sourceWidth'),
@@ -197,7 +196,7 @@ export default (WrappedComponent) => {
           // Preferred properties - these should be provided in this callback if possible
           // If any are missing, that is okay, but this will be a lack of data for the customer at a later time
           player_is_fullscreen: getStateForPlayer('isFullscreen'),
-          player_autoplay_on: !isPaused,
+          player_autoplay_on: !otherProps.paused,
           // player_preload_on: isPreload(),
           video_source_url: source && source.uri,
           // video_source_mime_type: getMimeType(),
@@ -263,7 +262,6 @@ export default (WrappedComponent) => {
         onEnd={_onEnd}
         onSeek={_onSeek}
         onLoad={_onLoad}
-        isPaused={_isPaused} //new isPaused prop
         onPlaybackRateChange={_onPlaybackRateChange}
         progressUpdateInterval={progressUpdateInterval}
         onFullscreenPlayerDidPresent={_onFullscreenPlayerDidPresent}
